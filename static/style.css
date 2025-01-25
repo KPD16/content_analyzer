@@ -46,6 +46,13 @@ button {
 #uploadBtn:hover {
     background-color: #0056b3;
 }
+#clearAllBtn {
+    background-color: #007BFF;  /* Blue for "Upload Files" */
+    color: white;
+}
+#clearAllBtn:hover {
+    background-color: #0056b3;
+}
 #result {
     margin-top: 20px;
     padding: 10px;

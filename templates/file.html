@@ -5,35 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>File Upload Form</title>
-    
 </head>
 <body>
     <h2>Upload Multiple Files</h2>
     <div class="description">
         <p>This website helps you analyze code files by counting the following:</p>
         <ul>
-            <li>Number of comments</li>
+            <li>Number of single line comments</li>
             <li>Number of blank lines</li>
             <li>Number of lines of code</li>
             <li>Total number of lines</li>
         </ul>
-        <p>Supported programming languages: Java, javascript, C, C++, Python.</p>
+        <p>Supported programming languages: Java, JavaScript, C, C++, Python.</p>
     </div>
     <form id="uploadForm" enctype="multipart/form-data">
         <div id="fileInputs">
             <label for="fileInput1">Choose files:</label>
-            <input type="file" id="fileInput1" name="uploadedFiles" required>
+            <input type="file" id="fileInput1" name="uploadedFiles" multiple required>
         </div>
         <button type="button" id="selectMoreBtn">Select More</button>
         <div class="button-container">
-            <button type="submit" id="uploadBtn">Upload Files</button>
+            <button type="submit" id="uploadBtn">Get Count</button>
+            <button type="button" id="clearAllBtn">Clear All</button>
         </div>
     </form>
 
     <div id="result"></div>
 
     <script>
-        let fileInputCount = 1;  // Keep track of the number of file inputs
+        let fileInputCount = 1; // Keep track of the number of file inputs
 
         // Function to add a new file input field
         function addFileInput() {
@@ -41,39 +41,52 @@
             const newInputDiv = document.createElement('div');
             newInputDiv.innerHTML = `
                 <label for="fileInput${fileInputCount}">Choose files:</label>
-                <input type="file" id="fileInput${fileInputCount}" name="uploadedFiles" required>
+                <input type="file" id="fileInput${fileInputCount}" name="uploadedFiles" multiple required>
             `;
             document.getElementById('fileInputs').appendChild(newInputDiv);
         }
 
         // Add event listener to the "Select More" button
-        document.getElementById('selectMoreBtn').addEventListener('click', function() {
-            addFileInput();  // Add a new file input field
-            this.innerHTML = 'Select More';  // Reset the button text
+        document.getElementById('selectMoreBtn').addEventListener('click', function () {
+            addFileInput(); // Add a new file input field
         });
 
         // Handle form submission
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
-            event.preventDefault();  // Prevent form from submitting normally
+        document.getElementById('uploadForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form from submitting normally
 
-            let formData = new FormData(this);  // Collect form data
+            let formData = new FormData(this); // Collect form data
             let resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = "Uploading...";  // Show uploading message
+            resultDiv.innerHTML = "Uploading..."; // Show uploading message
 
             // Send the files to the backend using Fetch API
             fetch('/upload', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.text())
-            .then(data => {
-                resultDiv.innerHTML = data;  // Display the result from the backend
-            })
-            .catch(error => {
-                resultDiv.innerHTML = "Error uploading files.";
-                console.error('Error:', error);
-            });
+                .then(response => response.text())
+                .then(data => {
+                    resultDiv.innerHTML = data; // Display the result from the backend
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = "Error uploading files.";
+                    console.error('Error:', error);
+                });
         });
+
+        // Function to reset the form and clear all file inputs
+        function clearAll() {
+            fileInputCount = 1; // Reset the file input counter
+            document.getElementById('uploadForm').reset(); // Reset the form
+            document.getElementById('fileInputs').innerHTML = `
+                <label for="fileInput1">Choose files:</label>
+                <input type="file" id="fileInput1" name="uploadedFiles" multiple required>
+            `;
+            document.getElementById('result').innerHTML = ""; // Clear the result area
+        }
+
+        // Add event listener to the "Clear All" button
+        document.getElementById('clearAllBtn').addEventListener('click', clearAll);
     </script>
 </body>
 </html>
