@@ -38,12 +38,13 @@ This web application allows users to upload multiple code files, and it analyzes
    cd code-analysis-web-app
 
 2. Install the required dependencies:
+    source venv/bin/activate
     pip install -r requirements.txt
 
-3. Start the Flask development server:
+4. Start the Flask development server:
     python3 app.py
 
-4. Open your browser and go to http://127.0.0.1:5001/ to access the application.
+5. Open your browser and go to http://127.0.0.1:5001/ to access the application.
 
 Usage
     Upload Files: Click the "Choose files" button to select one or more code files. The application supports multiple file uploads at once.
