@@ -38,7 +38,9 @@ This web application allows users to upload multiple code files, and it analyzes
    cd code-analysis-web-app
 
 2. Install the required dependencies:
+   
     source venv/bin/activate
+
     pip install -r requirements.txt
 
 4. Start the Flask development server:
